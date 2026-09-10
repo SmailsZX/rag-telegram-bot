@@ -7,3 +7,4 @@ data/*.pdf
 *.log
 .vscode/
 .idea/
+chat_history.db

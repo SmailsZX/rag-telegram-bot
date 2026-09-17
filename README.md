@@ -78,11 +78,38 @@ python main.py
 
 ## 🐳 Запуск через Docker
 
+### Требования
+- Docker Desktop
+- Ollama на хосте (с моделями `qwen2.5:7b-instruct-q4_K_M` и `nomic-embed-text`)
+- PDF-документы в `data/` (индексация — **до** запуска Docker, локально)
+
+### Запуск
+
 ```bash
 docker-compose up --build
 ```
 
-> **Важно:** Ollama должна быть запущена на хосте. Docker-контейнер обращается к ней через `host.docker.internal:11434`.
+**Что произойдёт:**
+- Соберётся образ приложения (Python 3.11-slim)
+- Запустится контейнер `rag-telegram-bot`
+- Бот подключится к Ollama на хосте через `host.docker.internal:11434`
+- Запустится polling в Telegram
+
+### Остановка
+
+```bash
+docker-compose down
+```
+
+### Как это устроено
+
+- **Ollama** — работает на хосте, контейнер обращается через `host.docker.internal:11434`.
+- **Volumes** — `data/`, `chroma_db/` и `chat_history.db` монтируются с хоста, данные не теряются.
+- **`.env`** — передаётся в контейнер через `env_file`.
+
+### Важно
+- **Индексация** (`python -m scripts.index_documents`) делается **локально** — ChromaDB сохраняется в `chroma_db/`, который монтируется в контейнер.
+- **VPN** (если Telegram API заблокирован) — должен работать в режиме TUN, чтобы контейнер видел сеть.
 
 ## 📁 Структура проекта
 
@@ -133,6 +160,7 @@ rag-telegram-bot/
 
 ## 🔮 Roadmap
 
+- [x] **Docker** — запуск одной командой
 - [ ] Поддержка нескольких документов с указанием источника
 - [ ] История диалогов с контекстом (multi-turn)
 - [ ] Streaming-ответы

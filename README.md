@@ -1,5 +1,5 @@
 # RAG Telegram Bot
-
+![Tests](https://github.com/SmailsZX/rag-telegram-bot/actions/workflows/tests.yml/badge.svg)
 Telegram-бот с **RAG (Retrieval-Augmented Generation)** на локальной LLM. Отвечает на вопросы по загруженным PDF-документам, не отправляя данные в облако.
 
 ![Telegram Demo](docs/telegram.png)

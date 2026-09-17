@@ -1,5 +1,5 @@
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -30,7 +30,13 @@ def log_message(user_id: int, username: str, question: str, answer: str) -> None
             INSERT INTO messages (user_id, username, question, answer, created_at)
             VALUES (?, ?, ?, ?, ?)
             """,
-            (user_id, username, question, answer, datetime.utcnow().isoformat()),
+            (
+                user_id,
+                username,
+                question,
+                answer,
+                datetime.now(timezone.utc).isoformat(),
+            ),
         )
         conn.commit()
 

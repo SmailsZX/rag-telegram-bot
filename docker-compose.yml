@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  bot:
+    build: .
+    container_name: rag-telegram-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    volumes:
+      - ./data:/app/data
+      - ./chroma_db:/app/chroma_db
+      - ./chat_history.db:/app/chat_history.db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

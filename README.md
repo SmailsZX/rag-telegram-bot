@@ -12,6 +12,7 @@ Telegram-бот с **RAG (Retrieval-Augmented Generation)** на локальн�
 - 💬 **Telegram-бот** — aiogram 3.x, команды `/start`, `/help`, `/stats`
 - 📝 **Логирование** — все диалоги сохраняются в SQLite
 - 🐳 **Docker** — запуск одной командой
+- 🧪 **10 тестов (pytest)** — БД и RAG-пайплайн
 - 🎯 **Честные ответы** — если в базе знаний нет информации, бот скажет об этом
 
 ## 🛠 Стек
@@ -25,6 +26,7 @@ Telegram-бот с **RAG (Retrieval-Augmented Generation)** на локальн�
 | Векторная БД | ChromaDB 0.5 |
 | Парсинг PDF | pypdf 5.1 |
 | Логи | SQLite |
+| Тестирование | pytest 8.3 |
 | Контейнеризация | Docker + docker-compose |
 
 ## 🚀 Быстрый старт
@@ -111,6 +113,30 @@ docker-compose down
 - **Индексация** (`python -m scripts.index_documents`) делается **локально** — ChromaDB сохраняется в `chroma_db/`, который монтируется в контейнер.
 - **VPN** (если Telegram API заблокирован) — должен работать в режиме TUN, чтобы контейнер видел сеть.
 
+## 🧪 Тесты
+
+Проект покрыт тестами (pytest) — **10 тестов**.
+
+### Запуск
+
+```bash
+pytest tests/ -v
+```
+
+### Что покрыто
+
+**Логирование (`tests/test_database.py`):**
+- ✅ Создание таблицы `messages`
+- ✅ Запись пары вопрос-ответ
+- ✅ Счётчик сообщений пользователя
+- ✅ Пустой счётчик для нового пользователя
+
+**RAG-пайплайн (`tests/test_rag.py`):**
+- ✅ Форматирование документов (пустой / один / несколько)
+- ✅ Системный промпт (grounding, `{context}`)
+- ✅ Пользовательский промпт (`{question}`)
+- ✅ Правило против галлюцинаций
+
 ## 📁 Структура проекта
 
 ```
@@ -125,12 +151,17 @@ rag-telegram-bot/
 │   └── bot.py             # aiogram-бот
 ├── scripts/
 │   └── index_documents.py # CLI для индексации
+├── tests/                 # Тесты (pytest)
+│   ├── conftest.py
+│   ├── test_database.py
+│   └── test_rag.py
 ├── data/                  # PDF-документы
 ├── chroma_db/             # Векторная БД (создаётся автоматически)
 ├── docs/                  # Скриншоты
 ├── .env.example
 ├── Dockerfile
 ├── docker-compose.yml
+├── pytest.ini
 ├── requirements.txt
 └── main.py
 ```
@@ -161,6 +192,7 @@ rag-telegram-bot/
 ## 🔮 Roadmap
 
 - [x] **Docker** — запуск одной командой
+- [x] **pytest** — тесты на БД и RAG (10 тестов)
 - [ ] Поддержка нескольких документов с указанием источника
 - [ ] История диалогов с контекстом (multi-turn)
 - [ ] Streaming-ответы

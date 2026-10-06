@@ -1,6 +1,10 @@
 # RAG Telegram Bot
 
-![Tests](https://github.com/SmailsZX/rag-telegram-bot/actions/workflows/tests.yml/badge.svg)
+[![Tests](https://github.com/SmailsZX/rag-telegram-bot/actions/workflows/tests.yml/badge.svg)](https://github.com/SmailsZX/rag-telegram-bot/actions)
+[![Python](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/)
+[![LangChain](https://img.shields.io/badge/LangChain-0.3-green)](https://langchain.com/)
+[![ChromaDB](https://img.shields.io/badge/ChromaDB-vector%20db-purple)](https://docs.trychroma.com/)
+[![Tests](https://img.shields.io/badge/tests-10%20passed-brightgreen)]()
 Telegram-бот с **RAG (Retrieval-Augmented Generation)** на локальной LLM. Отвечает на вопросы по загруженным PDF-документам, не отправляя данные в облако.
 
 ![Telegram Demo](docs/telegram.png)
